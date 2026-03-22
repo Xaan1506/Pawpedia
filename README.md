@@ -1,4 +1,4 @@
-Pawpedia
+PAWPEDIA
 
 Description :
 
