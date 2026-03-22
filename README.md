@@ -43,7 +43,7 @@ Fetch API
 
 
 Project Structure
-breed-o-pedia/
+Pawpedia/
 │
 ├── public/
 │   └── index.html
