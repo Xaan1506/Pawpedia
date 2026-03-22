@@ -1,11 +1,9 @@
-PAWPEDIA
-
-Description :
-
-A dog breed encyclopedia built with React. Pick any breed, explore its sub-breeds, and browse through images — plus a Hot or Not voting system because why not.
+Pawpedia
+Description
+A dog breed encyclopedia built with React. Pick any breed, explore its sub-breeds, and browse through a gallery of images — plus a Hot or Not voting system because why not.
 
 Features (Planned)
-Core Features :
+Core Features
 
 Browse all dog breeds from a dropdown
 Nested sub-breed dropdown that updates based on selected breed
@@ -13,28 +11,29 @@ Image gallery for every breed and sub-breed
 "Load More" button to progressively load images (9 at a time)
 Random dog image generator with one click
 
-Challenge Feature :
+Search, Filter & Sort
 
-Hot or Not voting system — vote on individual dog photos and see a running score
+Search bar to quickly find a breed by name
+Filter breeds alphabetically
+Sort image results by newest or most voted
 
-Interactive Features :
+Challenge Feature
 
-Breed search/filter to quickly jump to a breed
-Loading skeleton cards while images are being fetched
-Error state handling for failed API calls
+Hot or Not voting system — vote on individual dog photos and see a running score per image
 
-UI Features :
+UI Features
 
 Responsive card-based layout for dog images
 Large, friendly typography
-Clean and minimal design with smooth loading states
+Clean minimal design with smooth loading states
+Skeleton cards while images are being fetched
 
 
-API :
+API
 Dog CEO API — https://dog.ceo/dog-api/
-EndpointUsage/api/breeds/list/allFetch all breeds + sub-breeds/api/breed/{breed}/imagesFetch images for a breed/api/breed/{breed}/{subbreed}/imagesFetch sub-breed images/api/breeds/image/randomRandom dog image
+EndpointUsage/api/breeds/list/allFetch all breeds and sub-breeds/api/breed/{breed}/imagesFetch all images for a breed/api/breed/{breed}/{subbreed}/imagesFetch images for a specific sub-breed/api/breeds/image/randomFetch a single random dog image
 
-Tech Stack :
+Tech Stack
 
 React (with Hooks — useState, useEffect)
 JavaScript (ES6+)
@@ -42,8 +41,8 @@ CSS
 Fetch API
 
 
-Project Structure
-Pawpedia/
+📂 Project Structure
+pawpedia/
 │
 ├── public/
 │   └── index.html
@@ -62,15 +61,15 @@ Pawpedia/
 ├── README.md
 └── package.json
 
-Future Enhancements :
+💡 Future Enhancements
 
 Save favourite dog images (localStorage)
 Share a dog image directly
 Dark mode
-Breed comparison side-by-side
+Side-by-side breed comparison
 
 
-Setup :
+Setup
 
 Clone the repository
 Run npm install
@@ -82,4 +81,4 @@ No API keys needed — the Dog CEO API is completely free and public.
 
 
 Author
-Gyanam Talukdar
+Gyanam 
