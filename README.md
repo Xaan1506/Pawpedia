@@ -1,4 +1,5 @@
 Pawpedia
+
 Description :
 
 A dog breed encyclopedia built with React. Pick any breed, explore its sub-breeds, and browse through images — plus a Hot or Not voting system because why not.
