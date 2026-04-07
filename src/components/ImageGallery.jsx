@@ -61,18 +61,9 @@ function ImageGallery({ breed }) {
     return () => controller.abort();
   }, [breed]);
 
-  if (!breed) {
-    return (
-      <div className="empty-state">
-        <span className="emoji">🐶</span>
-        <p>Pick a breed to see photos!</p>
-      </div>
-    );
-  }
 
-  if (loading && images.length === 0) {
-    return <div className="loading">Fetching good boys... 🐾</div>;
-  }
+
+
 
   async function handleLoadMore() {
     if (!breed) return;

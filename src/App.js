@@ -26,13 +26,14 @@ function App() {
           <BreedSelector onBreedChange={setSelectedBreed} />
         </div>
 
-        {selectedBreed && (
-          <h2 className="section-title">
-            Photos of <span>{selectedBreed}</span>
-          </h2>
-        )}
-
-        <ImageGallery breed={selectedBreed} />
+        <div className="section-box">
+          {selectedBreed && (
+            <h2 className="section-title">
+              Photos of <span>{selectedBreed}</span>
+            </h2>
+          )}
+          <ImageGallery breed={selectedBreed} />
+        </div>
 
       </div>
     </>

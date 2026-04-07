@@ -8,8 +8,17 @@
 
 body {
   font-family: 'Nunito', sans-serif;
-  background: linear-gradient(135deg, #0a0a1a, #0d1b3e, #0a0a1a);
-  color: #2d2d2d;
+  color: #f0f4ff;
+  background-color: #0a0a1a;
+  background-image:
+    linear-gradient(135deg, rgba(10, 10, 26, 0.68), rgba(13, 27, 62, 0.68)),
+    url('https://images.pexels.com/photos/1805164/pexels-photo-1805164.jpeg?auto=compress&cs=tinysrgb&w=1200'),
+    url('https://images.pexels.com/photos/1629781/pexels-photo-1629781.jpeg?auto=compress&cs=tinysrgb&w=1200'),
+    url('https://images.pexels.com/photos/4587991/pexels-photo-4587991.jpeg?auto=compress&cs=tinysrgb&w=1200');
+  background-size: cover, 28% 28%, 24% 24%, 22% 22%;
+  background-position: center center, 10% 18%, 82% 22%, 45% 82%;
+  background-repeat: no-repeat, no-repeat, no-repeat, no-repeat;
+  background-attachment: fixed;
 }
 
 /* ── Header ── */
@@ -57,10 +66,12 @@ body {
 
 /* ── Section Boxes ── */
 .section-box {
-  background: linear-gradient(to right, #134e5e, #71b280);
-  border-radius: 16px ;
+  background: rgba(19, 78, 94, 0.84);
+  border-radius: 16px;
   padding: 28px;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+  box-shadow: 0 4px 18px rgba(0,0,0,0.18);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.08);
 }
 
 /* ── Random Dog ── */
@@ -104,15 +115,18 @@ body {
 
 .search-row {
   display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-  margin-bottom: 14px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  width: 100%;
+  max-width: 520px;
+  margin: 0 auto 14px;
 }
 
 .search-input-wrapper {
   position: relative;
   width: 100%;
-  min-width: 180px;
 }
 
 .search-input {
@@ -165,6 +179,8 @@ body {
   border: none;
   border-radius: 50px;
   cursor: pointer;
+  align-self: center;
+  display: block;
 }
 
 .search-button:hover {
@@ -175,6 +191,11 @@ body {
   margin-top: 12px;
   color: #ff4d6d;
   font-size: 0.95rem;
+  text-align: center;
+  width: 100%;
+  max-width: 520px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 select {
