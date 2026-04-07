@@ -1,11 +1,13 @@
 import { useState } from "react";
 
+const API_BASE_URL = process.env.REACT_APP_DOG_API_BASE_URL || "https://dog.ceo/api";
+
 function RandomDog() {
   const [image, setImage] = useState("");
   const [breedName, setBreedName] = useState("");
 
   function fetchRandom() {
-    fetch("https://dog.ceo/api/breeds/image/random")
+    fetch(`${API_BASE_URL}/breeds/image/random`)
       .then(res => res.json())
       .then(data => {
         setImage(data.message);

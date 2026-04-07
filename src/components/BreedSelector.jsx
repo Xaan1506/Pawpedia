@@ -1,5 +1,7 @@
 import { useState, useEffect, useMemo } from "react";
 
+const API_BASE_URL = process.env.REACT_APP_DOG_API_BASE_URL || "https://dog.ceo/api";
+
 function BreedSelector({ onBreedChange }) {
   const [breeds, setBreeds] = useState({});
   const [searchTerm, setSearchTerm] = useState("");
@@ -15,7 +17,7 @@ function BreedSelector({ onBreedChange }) {
   }, [breedList, searchTerm]);
 
   useEffect(() => {
-    fetch("https://dog.ceo/api/breeds/list/all")
+    fetch(`${API_BASE_URL}/breeds/list/all`)
       .then(res => res.json())
       .then(data => setBreeds(data.message));
   }, []);

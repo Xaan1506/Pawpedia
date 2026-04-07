@@ -3,6 +3,7 @@ import ImageCard from "./ImageCard";
 import ImageModal from "./ImageModal";
 
 const BATCH_SIZE = 9;
+const API_BASE_URL = process.env.REACT_APP_DOG_API_BASE_URL || "https://dog.ceo/api";
 
 function ImageGallery({ breed }) {
   const [images, setImages] = useState([]);
@@ -36,7 +37,7 @@ function ImageGallery({ breed }) {
 
       try {
         const response = await fetch(
-          `https://dog.ceo/api/breed/${breed}/images/random/${BATCH_SIZE}`,
+          `${API_BASE_URL}/breed/${breed}/images/random/${BATCH_SIZE}`,
           { signal: controller.signal }
         );
         const data = await response.json();
@@ -80,7 +81,7 @@ function ImageGallery({ breed }) {
 
     try {
       const response = await fetch(
-        `https://dog.ceo/api/breed/${breed}/images/random/${BATCH_SIZE}`
+        `${API_BASE_URL}/breed/${breed}/images/random/${BATCH_SIZE}`
       );
       const data = await response.json();
       if (!data.message) throw new Error("No images returned");
