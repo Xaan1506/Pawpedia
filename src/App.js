@@ -10,8 +10,10 @@ function App() {
   return (
     <>
       <header className="header">
-        <h1>Pawpedia 🐾</h1>
-        <p>Explore every dog breed on the planet</p>
+        <h1 className="brand-title">
+          <span>Pawpedia</span>
+          <span className="logo-icon" aria-hidden="true">🐾</span>
+        </h1>
       </header>
 
       <div className="app">

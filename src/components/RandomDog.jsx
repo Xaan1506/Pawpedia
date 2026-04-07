@@ -21,7 +21,7 @@ function RandomDog() {
 
   return (
     <div className="random-section">
-      <h2>🎲 Random Dog Generator</h2>
+      <h2> Random Dog Generator</h2>
       {image && (
         <>
           <img className="random-img" src={image} alt={breedName} />

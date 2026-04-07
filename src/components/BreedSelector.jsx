@@ -1,10 +1,18 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 
 function BreedSelector({ onBreedChange }) {
   const [breeds, setBreeds] = useState({});
-  const [selected, setSelected] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [message, setMessage] = useState("");
+  const breedList = useMemo(() => Object.keys(breeds), [breeds]);
+
+  const suggestions = useMemo(() => {
+    const query = searchTerm.trim().toLowerCase();
+    if (!query) return [];
+    return breedList
+      .filter(breed => breed.toLowerCase().includes(query))
+      .slice(0, 6);
+  }, [breedList, searchTerm]);
 
   useEffect(() => {
     fetch("https://dog.ceo/api/breeds/list/all")
@@ -12,9 +20,14 @@ function BreedSelector({ onBreedChange }) {
       .then(data => setBreeds(data.message));
   }, []);
 
-  function handleChange(e) {
-    setSelected(e.target.value);
-    onBreedChange(e.target.value);
+  function formatBreed(value) {
+    if (!value) return "";
+    return value.charAt(0).toUpperCase() + value.slice(1);
+  }
+
+  function handleSuggestionClick(breed) {
+    setSearchTerm(formatBreed(breed));
+    onBreedChange(breed);
     setMessage("");
   }
 
@@ -30,7 +43,7 @@ function BreedSelector({ onBreedChange }) {
     );
 
     if (match) {
-      setSelected(match);
+      setSearchTerm(formatBreed(match));
       onBreedChange(match);
       setMessage("");
     } else {
@@ -46,26 +59,37 @@ function BreedSelector({ onBreedChange }) {
   return (
     <>
       <form className="search-row" onSubmit={handleSubmit}>
-        <input
-          type="search"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          placeholder="Search dog breed..."
-          className="search-input"
-        />
+        <div className="search-input-wrapper">
+          <input
+            type="search"
+            value={searchTerm}
+            onChange={(e) => {
+              setSearchTerm(e.target.value);
+              setMessage("");
+            }}
+            placeholder="Search dog breed..."
+            className="search-input"
+          />
+          {suggestions.length > 0 && (
+            <ul className="search-suggestions" role="listbox">
+              {suggestions.map(breed => (
+                <li key={breed}>
+                  <button
+                    type="button"
+                    className="suggestion-item"
+                    onClick={() => handleSuggestionClick(breed)}
+                  >
+                    {breed.charAt(0).toUpperCase() + breed.slice(1)}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
         <button type="submit" className="search-button">
           Search
         </button>
       </form>
-
-      <select onChange={handleChange} value={selected}>
-        <option value="">🐾 Select a breed...</option>
-        {Object.keys(breeds).map(breed => (
-          <option key={breed} value={breed}>
-            {breed.charAt(0).toUpperCase() + breed.slice(1)}
-          </option>
-        ))}
-      </select>
 
       {message && <p className="search-message">{message}</p>}
     </>
