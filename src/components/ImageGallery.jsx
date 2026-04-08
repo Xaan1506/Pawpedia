@@ -1,4 +1,5 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
+import useInfiniteScroll from "../hooks/useInfiniteScroll";
 import ImageCard from "./ImageCard";
 import ImageModal from "./ImageModal";
 
@@ -11,8 +12,46 @@ function ImageGallery({ breed }) {
   const [loadingMore, setLoadingMore] = useState(false);
   const [error, setError] = useState("");
   const [selectedImage, setSelectedImage] = useState(null);
+  const [hasMore, setHasMore] = useState(true);
   const cache = useRef(new Map());
   const abortController = useRef(null);
+
+  const loadMoreImages = useCallback(async () => {
+    if (!breed || loadingMore) return;
+
+    setLoadingMore(true);
+    setError("");
+
+    try {
+      const response = await fetch(
+        `${API_BASE_URL}/breed/${breed}/images/random/${BATCH_SIZE}`
+      );
+      const data = await response.json();
+      if (!data.message) throw new Error("No images returned");
+
+      setImages(prev => {
+        const nextImages = data.message.filter(url => !prev.includes(url));
+        const merged = [...prev, ...nextImages];
+        cache.current.set(breed, merged);
+
+        // Stop infinite scroll if we get fewer images than requested
+        if (nextImages.length < BATCH_SIZE) {
+          setHasMore(false);
+        }
+
+        return merged;
+      });
+    } catch (err) {
+      setError("Could not load more images. Try again.");
+      console.error(err);
+      setHasMore(false);
+    } finally {
+      setLoadingMore(false);
+    }
+  }, [breed, loadingMore]);
+
+  // Use infinite scroll hook
+  const observerRef = useInfiniteScroll(loadMoreImages, hasMore);
 
   useEffect(() => {
     if (!breed) return;
@@ -28,6 +67,7 @@ function ImageGallery({ breed }) {
       setLoading(true);
       setError("");
       setImages([]);
+      setHasMore(true);
 
       if (cache.current.has(breed)) {
         setImages(cache.current.get(breed));
@@ -61,39 +101,10 @@ function ImageGallery({ breed }) {
     return () => controller.abort();
   }, [breed]);
 
-
-
-
-
-  async function handleLoadMore() {
-    if (!breed) return;
-    setLoadingMore(true);
-    setError("");
-
-    try {
-      const response = await fetch(
-        `${API_BASE_URL}/breed/${breed}/images/random/${BATCH_SIZE}`
-      );
-      const data = await response.json();
-      if (!data.message) throw new Error("No images returned");
-
-      setImages(prev => {
-        const nextImages = data.message.filter(url => !prev.includes(url));
-        const merged = [...prev, ...nextImages];
-        cache.current.set(breed, merged);
-        return merged;
-      });
-    } catch (err) {
-      setError("Could not load more images. Try again.");
-      console.error(err);
-    } finally {
-      setLoadingMore(false);
-    }
-  }
-
   return (
     <div>
       {error && <div className="error-message">{error}</div>}
+      {loading && <div className="loading-message">Loading adorable dogs... 🐕</div>}
       <div className="gallery">
         {images.map(url => (
           <ImageCard
@@ -104,13 +115,18 @@ function ImageGallery({ breed }) {
           />
         ))}
       </div>
-      <button
-        className="btn-load"
-        onClick={handleLoadMore}
-        disabled={loadingMore}
-      >
-        {loadingMore ? "Loading more..." : "Load More 🐾"}
-      </button>
+
+      {/* Infinite scroll trigger */}
+      {hasMore && images.length > 0 && (
+        <div ref={observerRef} className="loading-trigger">
+          {loadingMore && <div className="loading-message">Loading more dogs... 🐕</div>}
+        </div>
+      )}
+
+      {!hasMore && images.length > 0 && (
+        <div className="end-message">🐾 You've seen all the {breed} photos! 🐾</div>
+      )}
+
       <ImageModal
         image={selectedImage}
         breed={breed}

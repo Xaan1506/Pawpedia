@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo } from "react";
+import useDebounce from "../hooks/useDebounce";
 
 const API_BASE_URL = process.env.REACT_APP_DOG_API_BASE_URL || "https://dog.ceo/api";
 
@@ -6,20 +7,34 @@ function BreedSelector({ onBreedChange }) {
   const [breeds, setBreeds] = useState({});
   const [searchTerm, setSearchTerm] = useState("");
   const [message, setMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
   const breedList = useMemo(() => Object.keys(breeds), [breeds]);
 
+  // Debounce the search term to avoid too many API calls
+  const debouncedSearchTerm = useDebounce(searchTerm, 300);
+
   const suggestions = useMemo(() => {
-    const query = searchTerm.trim().toLowerCase();
+    const query = debouncedSearchTerm.trim().toLowerCase();
     if (!query) return [];
     return breedList
       .filter(breed => breed.toLowerCase().includes(query))
       .slice(0, 6);
-  }, [breedList, searchTerm]);
+  }, [breedList, debouncedSearchTerm]);
 
   useEffect(() => {
+    setIsLoading(true);
     fetch(`${API_BASE_URL}/breeds/list/all`)
       .then(res => res.json())
-      .then(data => setBreeds(data.message));
+      .then(data => {
+        setBreeds(data.message);
+        setIsLoading(false);
+      })
+      .catch(error => {
+        console.error('Error fetching breeds:', error);
+        setMessage('Failed to load breeds. Please refresh the page.');
+        setIsLoading(false);
+      });
   }, []);
 
   function formatBreed(value) {
@@ -69,10 +84,11 @@ function BreedSelector({ onBreedChange }) {
               setSearchTerm(e.target.value);
               setMessage("");
             }}
-            placeholder="Search dog breed..."
+            placeholder={isLoading ? "Loading breeds..." : "Search dog breed..."}
             className="search-input"
+            disabled={isLoading}
           />
-          {suggestions.length > 0 && (
+          {suggestions.length > 0 && !isLoading && (
             <ul className="search-suggestions" role="listbox">
               {suggestions.map(breed => (
                 <li key={breed}>
@@ -88,8 +104,8 @@ function BreedSelector({ onBreedChange }) {
             </ul>
           )}
         </div>
-        <button type="submit" className="search-button">
-          Search
+        <button type="submit" className="search-button" disabled={isLoading}>
+          {isLoading ? "Loading..." : "Search"}
         </button>
       </form>
 

@@ -1,5 +1,80 @@
 @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700&display=swap');
 
+:root {
+  /* Light theme variables */
+  --bg-primary: #f8f9fa;
+  --bg-secondary: #ffffff;
+  --bg-accent: rgba(108, 99, 255, 0.1);
+  --bg-overlay: rgba(248, 249, 250, 0.95);
+  --text-primary: #2d2d2d;
+  --text-secondary: #6c757d;
+  --text-accent: #6c63ff;
+  --text-highlight: #ff6eb4;
+  --border-color: rgba(0, 0, 0, 0.1);
+  --shadow-color: rgba(0, 0, 0, 0.1);
+  --card-bg: #ffffff;
+  --modal-bg: #ffffff;
+  --modal-footer-bg: #f8f9fa;
+  --suggestion-hover: #f3f4ff;
+  --error-color: #dc3545;
+  --btn-primary: #6c63ff;
+  --btn-primary-hover: #5848d2;
+  --btn-secondary: #ff6eb4;
+  --btn-secondary-hover: #ff5a9d;
+  --btn-hot: #ff6b6b;
+  --btn-not-bg: #f0f0f0;
+  --btn-not-text: #888;
+  --btn-not-hover-bg: #e0e0e0;
+  --btn-not-hover-text: #555;
+  --modal-overlay: rgba(0, 0, 0, 0.8);
+  --modal-close-bg: rgba(0, 0, 0, 0.7);
+  --modal-close-hover: rgba(0, 0, 0, 0.9);
+}
+
+.dark-theme {
+  /* Dark theme variables */
+  --bg-primary: #0a0a1a;
+  --bg-secondary: rgba(19, 78, 94, 0.84);
+  --bg-accent: rgba(19, 78, 94, 0.84);
+  --bg-overlay: rgba(19, 78, 94, 0.84);
+  --text-primary: #f0f4ff;
+  --text-secondary: #adb5bd;
+  --text-accent: #6c63ff;
+  --text-highlight: #ff6eb4;
+  --border-color: rgba(255, 255, 255, 0.12);
+  --shadow-color: rgba(0, 0, 0, 0.28);
+  --card-bg: #0f172a;
+  --modal-bg: #0b1222;
+  --modal-footer-bg: #101827;
+  --suggestion-hover: rgba(255, 255, 255, 0.08);
+  --error-color: #ff6b6b;
+  --btn-primary: #6c63ff;
+  --btn-primary-hover: #5848d2;
+  --btn-secondary: #ff6eb4;
+  --btn-secondary-hover: #ff5a9d;
+  --btn-hot: #ff6b6b;
+  --btn-not-bg: rgba(255, 255, 255, 0.08);
+  --btn-not-text: #d1d5db;
+  --btn-not-hover-bg: rgba(255, 255, 255, 0.14);
+  --btn-not-hover-text: #f8fafc;
+  --modal-overlay: rgba(0, 0, 0, 0.88);
+  --modal-close-bg: rgba(0, 0, 0, 0.7);
+  --modal-close-hover: rgba(0, 0, 0, 0.9);
+}
+
+.light-theme {
+  /* Light theme specific overrides */
+  --bg-primary: linear-gradient(135deg, #e3f2fd, #f3e5f5);
+  --card-bg: #ffffff;
+  --modal-bg: #ffffff;
+  --modal-footer-bg: #f8f9fa;
+  --suggestion-hover: #f3f4ff;
+  --btn-not-bg: #f5f5f5;
+  --btn-not-text: #666;
+  --btn-not-hover-bg: #e8e8e8;
+  --btn-not-hover-text: #333;
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -8,8 +83,12 @@
 
 body {
   font-family: 'Nunito', sans-serif;
-  color: #f0f4ff;
-  background-color: #0a0a1a;
+  color: var(--text-primary);
+  background: var(--bg-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+body.dark-theme {
   background-image:
     linear-gradient(135deg, rgba(10, 10, 26, 0.68), rgba(13, 27, 62, 0.68)),
     url('https://images.pexels.com/photos/1805164/pexels-photo-1805164.jpeg?auto=compress&cs=tinysrgb&w=1200'),
@@ -21,11 +100,20 @@ body {
   background-attachment: fixed;
 }
 
+body.light-theme {
+  background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%);
+}
+
 /* ── Header ── */
 .header {
   padding: 20px;
   text-align: center;
-  color: #2d2d2d;
+  color: var(--text-primary);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
 }
 
 .brand-title {
@@ -36,7 +124,7 @@ body {
   font-family: 'Fredoka One', cursive;
   font-size: 3.5rem;
   letter-spacing: 2px;
-  color: #6c63ff;
+  color: var(--text-accent);
 }
 
 .logo-icon {
@@ -44,8 +132,32 @@ body {
   align-items: center;
   justify-content: center;
   font-size: 2.4rem;
-  color: #6c63ff;
+  color: var(--text-accent);
   font-family: "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji", sans-serif;
+}
+
+.theme-toggle {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: var(--bg-secondary);
+  border: 2px solid var(--border-color);
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px var(--shadow-color);
+}
+
+.theme-toggle:hover {
+  transform: translateY(-50%) scale(1.1);
+  box-shadow: 0 4px 12px var(--shadow-color);
 }
 
 .header p {
@@ -66,12 +178,13 @@ body {
 
 /* ── Section Boxes ── */
 .section-box {
-  background: rgba(19, 78, 94, 0.84);
+  background: var(--bg-overlay);
   border-radius: 16px;
   padding: 28px;
-  box-shadow: 0 4px 18px rgba(0,0,0,0.18);
+  box-shadow: 0 4px 18px var(--shadow-color);
   backdrop-filter: blur(10px);
-  border: 1px solid rgba(255,255,255,0.08);
+  border: 1px solid var(--border-color);
+  transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 /* ── Random Dog ── */
@@ -85,7 +198,7 @@ body {
 .random-section h2 {
   font-family: 'Fredoka One', cursive;
   font-size: 1.8rem;
-  color: white;
+  color: var(--text-primary);
 }
 
 .random-img {
@@ -94,14 +207,14 @@ body {
   height: 280px;
   object-fit: cover;
   border-radius: 14px;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.12);
-  border: 5px solid white;
+  box-shadow: 0 6px 20px var(--shadow-color);
+  border: 5px solid var(--card-bg);
 }
 
 .breed-label {
   font-family: 'Fredoka One', cursive;
   font-size: 1.3rem;
-  color: white;
+  color: var(--text-primary);
 }
 
 /* ── Controls ── */
@@ -127,6 +240,7 @@ body {
 .search-input-wrapper {
   position: relative;
   width: 100%;
+  z-index: 9999;
 }
 
 .search-input {
@@ -135,8 +249,15 @@ body {
   font-family: 'Nunito', sans-serif;
   font-size: 1rem;
   border-radius: 50px;
-  border: 2px solid #6c63ff;
+  border: 2px solid var(--text-accent);
   outline: none;
+  background: var(--card-bg);
+  color: var(--text-primary);
+  transition: border-color 0.3s ease;
+}
+
+.search-input:focus {
+  border-color: var(--text-highlight);
 }
 
 .search-suggestions {
@@ -144,15 +265,17 @@ body {
   left: 0;
   right: 0;
   top: calc(100% + 8px);
-  background: white;
-  border-radius: 14px;
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+  background: var(--card-bg);
+  border-radius: 18px;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.55);
   list-style: none;
   padding: 8px 0;
   margin: 0;
-  z-index: 10;
+  z-index: 10000;
   max-height: 220px;
   overflow-y: auto;
+  border: 1px solid var(--border-color);
+  min-width: 100%;
 }
 
 .suggestion-item {
@@ -161,35 +284,46 @@ body {
   background: transparent;
   border: none;
   font: inherit;
-  color: #2d2d2d;
+  color: var(--text-primary);
   padding: 10px 18px;
   cursor: pointer;
+  transition: background-color 0.2s ease;
 }
 
 .suggestion-item:hover {
-  background: #f3f4ff;
+  background: var(--suggestion-hover);
+}
+
+.search-suggestions::-webkit-scrollbar {
+  width: 8px;
+}
+
+.search-suggestions::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 999px;
 }
 
 .search-button {
   padding: 12px 24px;
   font-family: 'Nunito', sans-serif;
   font-weight: 700;
-  background: #6c63ff;
+  background: var(--btn-primary);
   color: white;
   border: none;
   border-radius: 50px;
   cursor: pointer;
   align-self: center;
   display: block;
+  transition: background-color 0.3s ease;
 }
 
 .search-button:hover {
-  background: #5848d2;
+  background: var(--btn-primary-hover);
 }
 
 .search-message {
   margin-top: 12px;
-  color: #ff4d6d;
+  color: var(--error-color);
   font-size: 0.95rem;
   text-align: center;
   width: 100%;
@@ -198,22 +332,54 @@ body {
   margin-right: auto;
 }
 
+.error-message {
+  color: var(--error-color);
+  font-size: 0.95rem;
+  text-align: center;
+  margin: 20px 0;
+}
+
+.loading-message {
+  color: var(--text-primary);
+  font-size: 1.1rem;
+  text-align: center;
+  margin: 40px 0;
+  font-family: 'Fredoka One', cursive;
+}
+
+.end-message {
+  color: var(--text-primary);
+  font-size: 1.1rem;
+  text-align: center;
+  margin: 40px 0;
+  font-family: 'Fredoka One', cursive;
+  opacity: 0.8;
+}
+
+.loading-trigger {
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 select {
   font-family: 'Nunito', sans-serif;
   font-size: 1rem;
   font-weight: 700;
   padding: 12px 20px;
   border-radius: 50px;
-  border: 2px solid #6c63ff;
-  background: white;
-  color: #2d2d2d;
+  border: 2px solid var(--text-accent);
+  background: var(--card-bg);
+  color: var(--text-primary);
   cursor: pointer;
   outline: none;
   min-width: 220px;
+  transition: border-color 0.3s ease;
 }
 
 select:focus {
-  border-color: #ff6eb4;
+  border-color: var(--text-highlight);
 }
 
 /* ── Section Title ── */
@@ -221,11 +387,11 @@ select:focus {
   font-family: 'Fredoka One', cursive;
   font-size: 1.8rem;
   text-align: center;
-  color: #6c63ff;
+  color: var(--text-accent);
 }
 
 .section-title span {
-  color: #ff6eb4;
+  color: var(--text-highlight);
   text-transform: capitalize;
 }
 
@@ -236,18 +402,19 @@ select:focus {
   gap: 20px;
 }
 
-/* ── Card ── */
 .card {
-  background: white;
+  background: var(--card-bg);
   border-radius: 14px;
   overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.09);
+  box-shadow: 0 4px 12px var(--shadow-color);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border: 1px solid var(--border-color);
+  position: relative;
 }
 
 .card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 10px 24px rgba(0,0,0,0.14);
+  box-shadow: 0 10px 24px var(--shadow-color);
 }
 
 .card img {
@@ -255,6 +422,38 @@ select:focus {
   height: 200px;
   object-fit: cover;
   display: block;
+}
+
+.favorite-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(255, 255, 255, 0.9);
+  border: 2px solid var(--border-color);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px var(--shadow-color);
+}
+
+.favorite-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px var(--shadow-color);
+}
+
+.favorite-btn.favorited {
+  background: rgba(255, 107, 107, 0.9);
+  border-color: #ff6b6b;
+}
+
+.favorite-btn.favorited:hover {
+  background: rgba(255, 107, 107, 1);
 }
 
 .card-footer {
@@ -272,7 +471,7 @@ select:focus {
 .vote-score {
   font-family: 'Fredoka One', cursive;
   font-size: 1.3rem;
-  color: #6c63ff;
+  color: var(--text-accent);
 }
 
 /* ── Buttons ── */
@@ -288,45 +487,54 @@ button {
 }
 
 .btn-random {
-  background: #6c63ff;
+  background: var(--btn-primary);
   color: white;
   box-shadow: 0 4px 12px rgba(108,99,255,0.3);
-  border: 3px solid white;
+  border: 3px solid var(--card-bg);
+  transition: all 0.3s ease;
 }
 .btn-random:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 18px rgba(108,99,255,0.45);
+  background: var(--btn-primary-hover);
 }
 
 .btn-load {
   display: block;
   margin: 28px auto 0;
-  background: #ff6eb4;
+  background: var(--btn-secondary);
   color: white;
   font-size: 1rem;
   padding: 12px 36px;
   box-shadow: 0 4px 12px rgba(255,110,180,0.3);
+  transition: all 0.3s ease;
 }
 .btn-load:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 18px rgba(255,110,180,0.45);
+  background: var(--btn-secondary-hover);
 }
 
 .btn-hot {
-  background: #ff6b6b;
+  background: var(--btn-hot);
   color: white;
   padding: 7px 14px;
   font-size: 0.85rem;
+  transition: transform 0.2s ease;
 }
 .btn-hot:hover { transform: scale(1.05); }
 
 .btn-not {
-  background: #f0f0f0;
-  color: #888;
+  background: var(--btn-not-bg);
+  color: var(--btn-not-text);
   padding: 7px 14px;
   font-size: 0.85rem;
+  transition: all 0.2s ease;
 }
-.btn-not:hover { background: #e0e0e0; color: #555; }
+.btn-not:hover {
+  background: var(--btn-not-hover-bg);
+  color: var(--btn-not-hover-text);
+}
 
 /* ── Modal ── */
 .modal-overlay {
@@ -335,7 +543,7 @@ button {
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.8);
+  background: var(--modal-overlay);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -344,20 +552,21 @@ button {
 }
 
 .modal-content {
-  background: white;
+  background: var(--modal-bg);
   border-radius: 16px;
   max-width: 90vw;
   max-height: 90vh;
   position: relative;
   overflow: hidden;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 10px 40px var(--shadow-color);
+  border: 1px solid var(--border-color);
 }
 
 .modal-close {
   position: absolute;
   top: 10px;
   right: 10px;
-  background: rgba(0, 0, 0, 0.7);
+  background: var(--modal-close-bg);
   color: white;
   border: none;
   border-radius: 50%;
@@ -369,10 +578,11 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: background-color 0.2s ease;
 }
 
 .modal-close:hover {
-  background: rgba(0, 0, 0, 0.9);
+  background: var(--modal-close-hover);
 }
 
 .modal-image {
@@ -388,7 +598,8 @@ button {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: #f8f9fa;
+  background: var(--modal-footer-bg);
+  border-top: 1px solid var(--border-color);
 }
 
 /* ── Responsive ── */
