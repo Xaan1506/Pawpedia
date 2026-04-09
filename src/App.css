@@ -60,6 +60,7 @@
   --modal-overlay: rgba(0, 0, 0, 0.88);
   --modal-close-bg: rgba(0, 0, 0, 0.7);
   --modal-close-hover: rgba(0, 0, 0, 0.9);
+  --brand-underline-color: #a67cff;
 }
 
 .light-theme {
@@ -73,6 +74,7 @@
   --btn-not-text: #666;
   --btn-not-hover-bg: #e8e8e8;
   --btn-not-hover-text: #333;
+  --brand-underline-color: var(--text-accent);
 }
 
 * {
@@ -125,6 +127,8 @@ body.light-theme {
   font-size: 3.5rem;
   letter-spacing: 2px;
   color: var(--text-accent);
+  border-bottom: 6px solid var(--brand-underline-color);
+  padding-bottom: 0.15em;
 }
 
 .logo-icon {
